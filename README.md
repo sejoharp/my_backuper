@@ -9,13 +9,13 @@ This script saves macos x data onto an remote time machine.
 
 # Howto start the backup
 1. clone this repo
-2. instantiate the backup class and call the method startBackupProcess in a starterfile. Example content:  
+2. instantiate the backup class and call the method startBackupProcess in a starterfile. Example:  
 ```
-backup = Backup.new "00:23:45:87:09:12", "192.168.0.1", "192.168.0.255", "admin", 120,true  
+backup = Backup.new "00:23:45:87:09:12", "192.168.0.1", "192.168.0.255", "admin", 120, true  
 backup.startBackupProcess  
 ```
 3. create a file for the launchd-daemon in the folder ~/Library/LaunchAgents
-for example org.mydomain.mybackup.plist Example content:  
+for example org.mydomain.mybackup.plist Example:  
 ```
 	<?xml version="1.0" encoding="UTF-8"?>  
 	<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">  
@@ -36,7 +36,7 @@ for example org.mydomain.mybackup.plist Example content:
 		</dict>  
 	</plist>   
 ```
-4. active the new job: launchctl load ~/Library/LaunchAgents/org.mydomain.mybackup.plist
+4. active the new job. Example: launchctl load ~/Library/LaunchAgents/org.mydomain.mybackup.plist
 5. deactivate the automatic time maschine backup
 
 # Dependencies
