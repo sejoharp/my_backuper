@@ -26,6 +26,8 @@ class Backup
 		@user = user
 		@maxWaitForWakeupInSecs = maxWaitForWakeupInSecs
 		@debug = debug
+    
+    STDOUT.sync = true
 	end
 
 	def startBackupProcess
@@ -39,7 +41,7 @@ class Backup
 				wakeupBackupMachine
 			end
 			if serverOnline? && afpOnline?
-				log "backing up data"
+				log_without_new_line "backing up data"
 				backupData
 				if shutdownAfterBackup
 					log "send shutdown command"
@@ -57,6 +59,10 @@ class Backup
 		puts DateTime.now.to_s +  " " + msg if @debug
 	end
 
+	def log_without_new_line msg
+		print DateTime.now.to_s +  " " + msg if @debug
+	end
+  
 	def serverOnline?
 		return Ping.pingecho(@serverIP, 5)
 	end
@@ -70,11 +76,9 @@ class Backup
 	end
 
 	def execute_command command
-		output = open("|" + command).read
-		log output
-		output
-
+		open("|" + command).read
 	end
+  
 	def wakeupBackupMachine
 		sendWakeupCommand
 		connectionTries = 0
@@ -92,10 +96,12 @@ class Backup
 		startTimeMachine
 		sleep 60
 		while backupInProcess?
-			log "backup in progess"
+			print "."
 			sleep 30
 		end
+    puts ''
 	end
+  
 	def backupInProcess?
 		execute_command("ps -ax | grep /CoreServices/[b]ackupd 2>&1") != ""
 	end
